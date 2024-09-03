@@ -1,12 +1,12 @@
+''' Bingo '''
 #!/usr/bin/env python3
-import logging
-import sys
+# import logging
+# import sys
 from typing import List
 
-
-
-def main():
-    NUMBERS: int = 100
+# pylint: disable=C0103, C0116
+def main() -> None:
+    # NUMBERS: int = 100
     ROW: int = 5
     COL: int = 5
 
@@ -31,4 +31,3 @@ if __name__ == '__main__':
 # def mark_number():
 #     #mark number
 #     return 1
-
