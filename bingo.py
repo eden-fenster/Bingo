@@ -1,23 +1,31 @@
-''' Bingo '''
 #!/usr/bin/env python3
-# import logging
-# import sys
+''' Bingo '''
 from typing import List
+ROWS: int = 5
+COLS: int = 5
 
-# pylint: disable=C0103, C0116
+# pylint: disable=C0103, C0116, W0511, w0612
+
+# TODO: check vadility of input and write tests with pytest
 def main() -> None:
     # NUMBERS: int = 100
-    ROW: int = 5
-    COL: int = 5
+    bingo_board: List[List[int]] = []
+    fill_board(bingo_board=bingo_board)
+    for i in range(0, ROWS):
+        for j in range(0, COLS):
+            print(f'{bingo_board[i][j]}' + ', ')
+    print('we now have a bingo board !\n')
 
-    bingo_board: List[List[int]] = [[1, 2, 3 ,4, 5], [6, 7, 8, 9, 10], [11, 12, 13, 14, 15], [16, 17, 18, 19, 20], [21, 22, 23, 24, 25]]
-    for i in range(0, ROW):
-        for j in range(0, COL):
-            print(f'{bingo_board[i][j]}' + '\n')
-            print('we now have a bingo board !\n')
-
-if __name__ == '__main__':
-    main()
+def fill_board(bingo_board: List[List[int]]):
+    num: int
+    print('fill 25 different numbers to put in the board\n')
+    for i in range (0, ROWS):
+        col: List[int] = []
+        for j in range (0, COLS):
+            num = int(input('put a different number\n'))
+            col.append(num)
+            print(f'{num} + \n')
+        bingo_board.append(col)
 
 # def fill_list(number_list: List[int]):
 #     for i in range (0, 100):
@@ -31,3 +39,6 @@ if __name__ == '__main__':
 # def mark_number():
 #     #mark number
 #     return 1
+
+if __name__ == '__main__':
+    main()
