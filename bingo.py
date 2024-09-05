@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
 ''' Bingo '''
+import sys
+import logging
 from typing import List
 ROWS: int = 5
 COLS: int = 5
 
-# pylint: disable=C0103, C0116, W0511, w0612
+logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 
-# TODO: check vadility of input and write tests with pytest
+# pylint: disable=C0103, C0116, W0511, w0612, C0200, W1203
+
+# TODO: rewrite fill_board so that i can write tests with pytest and make jira board
 def main() -> None:
     # NUMBERS: int = 100
     bingo_board: List[List[int]] = []
@@ -23,10 +27,18 @@ def fill_board(bingo_board: List[List[int]]):
         col: List[int] = []
         for j in range (0, COLS):
             num = int(input('put a different number\n'))
-            col.append(num)
-            print(f'{num} + \n')
+            if not is_already_in_board(col=col, num=num):
+                col.append(num)
+                print(f'{num}\n')
         bingo_board.append(col)
 
+def is_already_in_board(col: List[int], num: int) -> bool:
+    for i in range(0, len(col)):
+        logging.debug(f'current square is {col[i]} and number is {num}\n')
+        if col[i] == num:
+            print("error: number can't be in the board more than once")
+            sys.exit(1)
+    return False
 # def fill_list(number_list: List[int]):
 #     for i in range (0, 100):
 #         number_list[i] = i + 1
