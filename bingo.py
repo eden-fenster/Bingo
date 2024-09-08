@@ -8,7 +8,7 @@ COLS: int = 5
 
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 
-# pylint: disable=C0103, C0116, W0511, w0612, C0200, W1203
+# pylint: disable=C0103, C0116, W0511, w0612, C0200, W1203, W0613
 
 # TODO: rewrite fill_board so that i can write tests with pytest and make jira board
 def main() -> None:
@@ -31,6 +31,18 @@ def fill_board(bingo_board: List[List[int]]):
                 col.append(num)
                 print(f'{num}\n')
         bingo_board.append(col)
+
+def is_board_valid(bingo_board: List[List[int]]) -> bool:
+    # go over board to scan if there are duplicates
+    # if yes, return false
+    # else, return true
+    return True
+
+def are_there_duplicates(bingo_board: List[List[int]], num: int, i: int) -> bool:
+    # go over board to scan if num appears more than once
+    # if yes, return true
+    # else, return False
+    return False
 
 def is_already_in_board(col: List[int], num: int) -> bool:
     for i in range(0, len(col)):
