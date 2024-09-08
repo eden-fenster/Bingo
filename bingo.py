@@ -10,7 +10,7 @@ logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 
 # pylint: disable=C0103, C0116, W0511, w0612, C0200, W1203, W0613
 
-# TODO: rewrite fill_board so that i can write tests with pytest and make jira board
+# TODO: rewrite fill_board so that i can write tests with pytest and make sure that are_there_duplicates does not go out of range
 def main() -> None:
     # NUMBERS: int = 100
     bingo_board: List[List[int]] = []
@@ -34,11 +34,16 @@ def fill_board(bingo_board: List[List[int]]):
 
 def is_board_valid(bingo_board: List[List[int]]) -> bool:
     # go over board to scan if there are duplicates
-    # if yes, return false
+    for i in range (0, ROWS):
+        for j in range(0, COLS):
+            # if yes, return false
+            if are_there_duplicates(bingo_board=bingo_board, num=bingo_board[i][j],
+                                    i=i, j=j):
+                return False
     # else, return true
     return True
 
-def are_there_duplicates(bingo_board: List[List[int]], num: int, i: int) -> bool:
+def are_there_duplicates(bingo_board: List[List[int]], num: int, i: int, j: int) -> bool:
     # go over board to scan if num appears more than once
     # if yes, return true
     # else, return False
