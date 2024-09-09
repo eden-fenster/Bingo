@@ -10,7 +10,7 @@ logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 
 # pylint: disable=C0103, C0116, W0511, w0612, C0200, W1203, W0613
 
-# TODO: write tests with pytest and build list of numbers
+# TODO: fix error and build list of numbers
 def main() -> None:
     # NUMBERS: int = 100
     bingo_board: List[List[int]] = []
@@ -32,12 +32,16 @@ def fill_board(bingo_board: List[List[int]]):
                 print(f'{num}\n')
         bingo_board.append(col)
 
+# ERROR: only checking rows and not columns, need to fix that
 def is_board_valid(bingo_board: List[List[int]]) -> bool:
     # go over board to scan if there are duplicates
     for i in range (0, ROWS):
+        col: List[int] = []
         for j in range(0, COLS):
             # if yes, return false
-            if is_already_in_board(col=bingo_board[i], num=bingo_board[i][j]):
+            if not is_already_in_board(col=col, num=bingo_board[i][j]):
+                col.append(bingo_board[i][j])
+            else:
                 return False
     # else, return true
     return True
@@ -49,6 +53,17 @@ def is_already_in_board(col: List[int], num: int) -> bool:
             print("error: number can't be in the board more than once")
             sys.exit(1)
     return False
+
+def test_bingo():
+    board_one: List[List[int]] = [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10],
+                                   [11, 12, 13, 14, 15], [16, 17, 18, 19, 20], [21, 22, 23, 24, 25]]
+    board_two: List[List[int]] = [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10],
+                                   [11, 12, 13, 14, 15], [16, 17, 18, 19, 20], [21, 22, 23, 24, 1]]
+    board_three: List[List[int]] = [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10],
+                                     [11, 12, 13, 14, 15], [16, 17, 18, 19, 20], [21, 22, 23, 24, 24]]
+    assert is_board_valid(board_one) is True
+    assert is_board_valid(board_two) is False
+    assert is_board_valid(board_three) is False
 
 # def fill_list(number_list: List[int]):
 #     for i in range (0, 100):
