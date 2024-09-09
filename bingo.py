@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 ''' Bingo '''
-import sys
 import logging
 from typing import List
 ROWS: int = 5
