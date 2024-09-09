@@ -51,7 +51,7 @@ def is_already_in_board(col: List[int], num: int) -> bool:
         logging.debug(f'current square is {col[i]} and number is {num}\n')
         if col[i] == num:
             print("error: number can't be in the board more than once")
-            sys.exit(1)
+            return True
     return False
 
 def test_bingo():
@@ -62,8 +62,8 @@ def test_bingo():
     board_three: List[List[int]] = [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10],
                                      [11, 12, 13, 14, 15], [16, 17, 18, 19, 20], [21, 22, 23, 24, 24]]
     assert is_board_valid(board_one) is True
-    assert is_board_valid(board_two) is False
     assert is_board_valid(board_three) is False
+    assert is_board_valid(board_two) is False
 
 # def fill_list(number_list: List[int]):
 #     for i in range (0, 100):
