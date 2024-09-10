@@ -9,7 +9,8 @@ logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 
 # pylint: disable=C0103, C0116, W0511, w0612, C0200, W1203, W0613
 
-# TODO: fix error and build list of numbers
+
+# TODO: build list of numbers, get from file and clean up code
 def main() -> None:
     # NUMBERS: int = 100
     bingo_board: List[List[int]] = []
@@ -38,6 +39,10 @@ def is_board_valid(bingo_board: List[List[int]]) -> bool:
         col: List[int] = []
         for j in range(0, COLS):
             # if yes, return false
+            for k in range(0, i):
+                if not is_already_in_board(col=bingo_board[k], num=bingo_board[i][j]):
+                    continue
+                return False
             if not is_already_in_board(col=col, num=bingo_board[i][j]):
                 col.append(bingo_board[i][j])
             else:
@@ -59,7 +64,7 @@ def test_bingo():
     board_two: List[List[int]] = [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10],
                                    [11, 12, 13, 14, 15], [16, 17, 18, 19, 20], [21, 22, 23, 24, 1]]
     board_three: List[List[int]] = [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10],
-                                     [11, 12, 13, 14, 15], [16, 17, 18, 19, 20], [21, 22, 23, 24, 24]]
+                                [11, 12, 13, 14, 15], [16, 17, 18, 19, 20], [21, 22, 23, 24, 24]]
     assert is_board_valid(board_one) is True
     assert is_board_valid(board_three) is False
     assert is_board_valid(board_two) is False
