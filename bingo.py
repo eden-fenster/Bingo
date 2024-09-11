@@ -4,13 +4,15 @@ import logging
 from typing import List
 ROWS: int = 5
 COLS: int = 5
+NUMBER_OF_NUMBERS: int = 99
+BINGO_NUMBERS: List[int] = [] * 99
 
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 
 # pylint: disable=C0103, C0116, W0511, w0612, C0200, W1203, W0613
 
 
-# TODO: build list of numbers, get from file and clean up code
+# TODO: get from file and clean up code
 def main() -> None:
     # NUMBERS: int = 100
     bingo_board: List[List[int]] = []
@@ -57,6 +59,11 @@ def is_already_in_board(col: List[int], num: int) -> bool:
             print("error: number can't be in the board more than once")
             return True
     return False
+
+def generate_numbers():
+    for i in range(0, NUMBER_OF_NUMBERS):
+        BINGO_NUMBERS[i] = i + 1
+    print("Numbers have been generated\n")
 
 def test_bingo():
     board_one: List[List[int]] = [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10],
