@@ -1,18 +1,20 @@
 #!/usr/bin/env python3
 ''' Bingo '''
 import logging
+import sys
+import random
 from typing import List
 ROWS: int = 5
 COLS: int = 5
-NUMBER_OF_NUMBERS: int = 99
-BINGO_NUMBERS: List[int] = [] * 99
+OUT_NUMBERS: List[int] = []
+
 
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 
-# pylint: disable=C0103, C0116, W0511, w0612, C0200, W1203, W0613
+# pylint: disable=C0103, C0116, W0511, w0612, C0200, W1203, W0613, W0621
 
 
-# TODO: get from file and clean up code
+# TODO: clean up code and mark positions on board
 def main() -> None:
     # NUMBERS: int = 100
     bingo_board: List[List[int]] = []
@@ -60,11 +62,6 @@ def is_already_in_board(col: List[int], num: int) -> bool:
             return True
     return False
 
-def generate_numbers():
-    for i in range(0, NUMBER_OF_NUMBERS):
-        BINGO_NUMBERS[i] = i + 1
-    print("Numbers have been generated\n")
-
 def test_bingo():
     board_one: List[List[int]] = [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10],
                                    [11, 12, 13, 14, 15], [16, 17, 18, 19, 20], [21, 22, 23, 24, 25]]
@@ -76,14 +73,21 @@ def test_bingo():
     assert is_board_valid(board_three) is False
     assert is_board_valid(board_two) is False
 
-# def fill_list(number_list: List[int]):
-#     for i in range (0, 100):
-#         number_list[i] = i + 1
-#         is_marked[i] = False
-
-# def random_number() -> int:
-#     # return a random number between 1 - 100
-#     return 1
+def is_out(num: int) -> bool:
+    if num in OUT_NUMBERS:
+        return True
+    return False
+def random_number() -> int:
+    # return a random number between 1 - 100
+    num: int = random.randrange(1, 99, 1)
+    # check to see if number has already been taken out
+    if not is_out(num):
+        OUT_NUMBERS[len(OUT_NUMBERS)] = num
+        return num
+    # if yes, terminate program
+    else:
+        logging.error(f'{num} is already out, terminating program.\n')
+        sys.exit(1)
 
 # def mark_number():
 #     #mark number
