@@ -36,7 +36,6 @@ def fill_board(bingo_board: List[List[int]]):
                 print(f'{num}\n')
         bingo_board.append(col)
 
-# ERROR: only checking rows and not columns, need to fix that
 def is_board_valid(bingo_board: List[List[int]]) -> bool:
     # go over board to scan if there are duplicates
     for i in range (0, ROWS):
