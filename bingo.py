@@ -1,16 +1,20 @@
 #!/usr/bin/env python3
 ''' Bingo '''
 import logging
+import sys
+import random
 from typing import List
 ROWS: int = 5
 COLS: int = 5
+OUT_NUMBERS: List[int] = []
+
 
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 
-# pylint: disable=C0103, C0116, W0511, w0612, C0200, W1203, W0613
+# pylint: disable=C0103, C0116, W0511, w0612, C0200, W1203, W0613, W0621
 
 
-# TODO: build list of numbers, get from file and clean up code
+# TODO: clean up code and mark positions on board
 def main() -> None:
     # NUMBERS: int = 100
     bingo_board: List[List[int]] = []
@@ -69,14 +73,21 @@ def test_bingo():
     assert is_board_valid(board_three) is False
     assert is_board_valid(board_two) is False
 
-# def fill_list(number_list: List[int]):
-#     for i in range (0, 100):
-#         number_list[i] = i + 1
-#         is_marked[i] = False
-
-# def random_number() -> int:
-#     # return a random number between 1 - 100
-#     return 1
+def is_out(num: int) -> bool:
+    if num in OUT_NUMBERS:
+        return True
+    return False
+def random_number() -> int:
+    # return a random number between 1 - 100
+    num: int = random.randrange(1, 99, 1)
+    # check to see if number has already been taken out
+    if not is_out(num):
+        OUT_NUMBERS[len(OUT_NUMBERS)] = num
+        return num
+    # if yes, terminate program
+    else:
+        logging.error(f'{num} is already out, terminating program.\n')
+        sys.exit(1)
 
 # def mark_number():
 #     #mark number
