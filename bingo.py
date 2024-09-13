@@ -7,6 +7,8 @@ from typing import List
 ROWS: int = 5
 COLS: int = 5
 OUT_NUMBERS: List[int] = []
+BINGO_BOARD: List[List[int]] = []
+IS_MARKED: List[List[bool]] = [[False]*ROWS]*COLS
 
 
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
@@ -16,15 +18,18 @@ logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 
 # TODO: clean up code and mark positions on board
 def main() -> None:
-    # NUMBERS: int = 100
-    bingo_board: List[List[int]] = []
-    fill_board(bingo_board=bingo_board)
+    fill_board(BINGO_BOARD=BINGO_BOARD)
     for i in range(0, ROWS):
         for j in range(0, COLS):
-            print(f'{bingo_board[i][j]}' + ', ')
+            print(f'{BINGO_BOARD[i][j]}' + ', ')
     print('we now have a bingo board !\n')
+    # get out a random number
+    # mark it
+    # check to see if we have a bingo
+    # if not, continue
+    # if yes, break
 
-def fill_board(bingo_board: List[List[int]]):
+def fill_board(BINGO_BOARD: List[List[int]]):
     num: int
     print('fill 25 different numbers to put in the board\n')
     for i in range (0, ROWS):
@@ -34,20 +39,20 @@ def fill_board(bingo_board: List[List[int]]):
             if not is_already_in_board(col=col, num=num):
                 col.append(num)
                 print(f'{num}\n')
-        bingo_board.append(col)
+        BINGO_BOARD.append(col)
 
-def is_board_valid(bingo_board: List[List[int]]) -> bool:
+def is_board_valid(BINGO_BOARD: List[List[int]]) -> bool:
     # go over board to scan if there are duplicates
     for i in range (0, ROWS):
         col: List[int] = []
         for j in range(0, COLS):
             # if yes, return false
             for k in range(0, i):
-                if not is_already_in_board(col=bingo_board[k], num=bingo_board[i][j]):
+                if not is_already_in_board(col=BINGO_BOARD[k], num=BINGO_BOARD[i][j]):
                     continue
                 return False
-            if not is_already_in_board(col=col, num=bingo_board[i][j]):
-                col.append(bingo_board[i][j])
+            if not is_already_in_board(col=col, num=BINGO_BOARD[i][j]):
+                col.append(BINGO_BOARD[i][j])
             else:
                 return False
     # else, return true
@@ -82,15 +87,16 @@ def random_number() -> int:
     # check to see if number has already been taken out
     if not is_out(num):
         OUT_NUMBERS[len(OUT_NUMBERS)] = num
+        # if num in BINGO_BOARD:
+            # find position in board
+            # mark number in IS_MARKED
         return num
     # if yes, terminate program
     else:
         logging.error(f'{num} is already out, terminating program.\n')
         sys.exit(1)
+# method for checking for a bingo
 
-# def mark_number():
-#     #mark number
-#     return 1
 
 if __name__ == '__main__':
     main()
