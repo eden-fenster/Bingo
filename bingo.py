@@ -3,12 +3,13 @@
 import logging
 import random
 from typing import List
-ROWS: int = 5
-COLS: int = 5
+ROWS: int = 3
+COLS: int = 3
 NUMBER_OF_NUMBERS: int = 99
+WINNING: int = 1000000
 OUT_NUMBERS: List[int] = [0] * NUMBER_OF_NUMBERS
 BINGO_BOARD: List[List[int]] = [[0]*ROWS]*COLS
-NUMBER_FOR_BINGO: int = 5
+NUMBER_FOR_BINGO: int = 3
 IS_MARKED: List[List[bool]] = [[False]*ROWS]*COLS
 
 
@@ -23,18 +24,14 @@ def its_bingo_time(BINGO_BOARD: List[List[int]]) -> str:
     # get out a random number
     num: int = random_number(out_counter=out_counter)
     logging.debug(f'num is {num} and counter is {out_counter}')
-    while num != -1:
-        # check to see if we have a bingo
-        if is_bingo():
-            # if yes, break
-            return "You got a bingo !\n"
-        # if not, continue
+    while num not in (-1, WINNING):
         out_counter += 1
         num = random_number(out_counter=out_counter)
         logging.debug(f'num is {num} and counter is {out_counter}')
-
-    logging.error(f'{num} is already out, terminating program.\n')
-    return "Game Over !\n"
+    if num == -1:
+        logging.error(f'{num} is already out, terminating program.\n')
+        return "Game Over !\n"
+    return "You got a bingo !\n"
 
 
 def fill_board(BINGO_BOARD: List[List[int]]):
@@ -73,29 +70,29 @@ def is_already_in_board(col: List[int], num: int) -> bool:
             return True
     return False
 
-# TODO: there is a bug where it doesn't keep track of the numbers that have come out correctly
-def is_out(num: int) -> bool:
-    if num in OUT_NUMBERS:
-        return True
-    return False
+# TODO: there is a bug, either it doesn't mark the numbers or that it can't check for a bingo
 def random_number(out_counter: int) -> int:
     # return a random number between 1 - 100
-    num: int = random.randrange(1, 25, 1)
+    num: int = random.randrange(1, 9, 1)
     # logging.debug(f'num is {num} and count is {out_counter}\n')
     # check to see if number has already been taken out
-    if not is_out(num):
+    if num not in OUT_NUMBERS:
         # if not, add to list
         OUT_NUMBERS[out_counter] = num
         logging.debug(f'counter = {out_counter}')
         # marking in board
         is_in_board(num)
-        return num
+        if not is_bingo():
+            return num
+        return WINNING
     # if yes, terminate program
     return -1
 # finding a number in the board
+# BUG: position in board not incrementing, there is probably a bug with the board
 def is_in_board(num: int) -> bool:
     for i in range(0, ROWS):
         for j in range(0, COLS):
+            logging.debug(f'num is {num} and current position in board is {BINGO_BOARD[i][j]}')
             if num == BINGO_BOARD[i][j]:
                 # marking the number
                 IS_MARKED[i][j] = True
@@ -168,7 +165,8 @@ def test_bingo():
                                    [11, 12, 13, 14, 15], [16, 17, 18, 19, 20], [21, 22, 23, 24, 1]]
     board_three: List[List[int]] = [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10],
                                 [11, 12, 13, 14, 15], [16, 17, 18, 19, 20], [21, 22, 23, 24, 24]]
-    assert its_bingo_time(board_one), "You got a bingo !\n"
+    board_four: List[List[int]] = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+    assert its_bingo_time(board_four), "You got a bingo !\n"
     # assert its_bingo_time(board_two), "You got a bingo !\n"
     # assert its_bingo_time(board_three), "You got a bingo !\n"
     # assert is_board_valid(board_one) is True
